@@ -1,0 +1,55 @@
+{
+  "builders": [
+    {
+      "type": "openstack",
+      "identity_endpoint": "http://192.168.0.101:5000/v3",
+      "tenant_name": "admin",
+      "domain_name": "Default",
+      "username": "admin",
+      "password": "admin",
+      "region": "RegionOne",
+      "insecure": "true",
+      "flavor": "m1.small",
+      "ssh_username": "ubuntu",
+      "image_name": "cassandra-image",
+      "source_image": "b12bcd58-6bcd-4028-9be4-4f7add14c568",
+      "networks": "7bec64b6-df13-47d9-8fd9-7fcc8b026158",
+      "floating_ip_pool": "public",
+      "use_floating_ip": true,
+      "security_groups": ["default", "remote SSH"]
+    }
+  ],
+
+  "provisioners": [
+
+    {
+      "type": "file",
+      "source": "./files/jolokia-jvm-1.3.5-agent.jar",
+      "destination": "/tmp/jolokia-jvm-1.3.5-agent.jar"
+    },
+
+    {
+      "type": "file",
+      "source": "./files/cassandra-default",
+      "destination": "/tmp/cassandra-default"
+    },
+
+    {
+      "type": "file",
+      "source": "./files/diamond_4.0.519_all.deb",
+      "destination": "/tmp/diamond_4.0.519_all.deb"
+    },
+
+    {
+      "type": "file",
+      "source": "./files/telegraf_1.1.2_amd64.deb",
+      "destination": "/tmp/telegraf_1.1.2_amd64.deb"
+    },
+
+    {
+      "type": "shell",
+      "script": "setup.sh"
+    }
+  ]
+
+}
